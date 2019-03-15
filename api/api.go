@@ -4,15 +4,20 @@ import (
   "log"
   "context"
   "net/http"
+  "os"
+  "os/signal"
+  "time"
+
   "github.com/gorilla/mux"
 )
 
 func putUser(w http.ResponseWriter, r *http.Request){
-  log.Info("Put User function")
+  w.Header().Set("Content-Type", "application/json")
+  w.WriteHeader(http.StatusOK)
 }
 
 func getUser(w http.ResponseWriter, r *http.Request){
-  log.Info("Get User function")
+  log.Println("Get User function")
 }
 
 func Run() int {
@@ -20,16 +25,16 @@ func Run() int {
 
   // Adding routes
   router.HandleFunc("/hello/{username:[a-zA-Z0-9]+}", putUser).Methods("PUT")
-  router.HandleFunc("/hello/{username:[a-zA-Z0-9]+}", getUser).Methods("PUT")
+  router.HandleFunc("/hello/{username:[a-zA-Z0-9]+}", getUser).Methods("GET")
 
   // Create a server
-  log.Info("Start server on 0.0.0.0:8000")
+  log.Println("Starting server on 0.0.0.0:8000")
   server := &http.Server{
       Addr:         "0.0.0.0:8000",
       WriteTimeout: time.Second * 15,
       ReadTimeout:  time.Second * 15,
       IdleTimeout:  time.Second * 60,
-      Handler: router
+      Handler: router,
   }
 
   // Run the server
@@ -45,11 +50,11 @@ func Run() int {
 
   <-c
 
-  ctx, cancel := context.WithTimeout(context.Background(), wait)
+  ctx, cancel := context.WithTimeout(context.Background(), 15)
   defer cancel()
 
   server.Shutdown(ctx)
 
-  log.Println("shutting down")
+  log.Println("Gracefully shutting down...")
   return 0
 }
