@@ -5,5 +5,4 @@ type Database interface {
   Close()
   Put(string, string) error
   Get(string) (string, error)
-
 }
