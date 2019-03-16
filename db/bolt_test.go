@@ -14,7 +14,9 @@ func TestCreateBoltDB(t *testing.T) {
   dbFileName := t.Name() + ".dbtest"
   dbGoldenFileName := t.Name() + ".golden"
 
-  boltDB := NewBoltDB(dbFileName)
+  // Create DB
+  boltDB := new(BoltDB)
+  boltDB.Open(dbFileName)
   defer boltDB.Close()
 
   gf, err := ioutil.ReadFile(filepath.Join("testdata", dbGoldenFileName))
@@ -38,8 +40,9 @@ func TestCreateBoltDB(t *testing.T) {
 func TestStoreAndGetBoldData (t *testing.T){
   dbFileName := t.Name() + ".dbtest"
 
-  boltDB := NewBoltDB(dbFileName)
-  defer boltDB.Close()
+  // Create DB
+  boltDB := new(BoltDB)
+  boltDB.Open(dbFileName)
 
   testData := map[string]string{
     "simon": "1988-05-21",
@@ -73,7 +76,9 @@ func TestGetBoldData (t *testing.T) {
   dbGoldenFileName := t.Name() + ".golden"
 
   // Create DB
-  boltDB := NewBoltDB(filepath.Join("testdata", dbGoldenFileName))
+  boltDB := new(BoltDB)
+  boltDB.Open(filepath.Join("testdata", dbGoldenFileName))
+
   defer boltDB.Close()
 
   testData := map[string]string{

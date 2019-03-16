@@ -1,8 +1,9 @@
 package db
 
 import (
-	"log"
+	//"log"
   "time"
+	"fmt"
 
 	"github.com/boltdb/bolt"
 )
@@ -44,16 +45,14 @@ func (blt *BoltDB) Close() {
   blt.db.Close()
 }
 
-func NewBoltDB(filePath string) *BoltDB {
-	db, err := bolt.Open(filePath, 0600, &bolt.Options{Timeout: 1 * time.Second})
+func (blt *BoltDB) Open(location string) {
+	fmt.Println(location)
+	db, err := bolt.Open(location, 0600, &bolt.Options{Timeout: 1 * time.Second})
+
 	if err != nil {
-		log.Fatal(err)
+		panic(err)
 	}
 
-  boltDB := &BoltDB {
-    db: db,
-    filePath: filePath,
-  }
-
-  return boltDB
+	blt.db = db
+	blt.filePath = location
 }
