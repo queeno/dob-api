@@ -25,7 +25,7 @@ func (blt BoltDB) Get(key string) string {
 }
 
 
-func (blt BoltDB) Store(key string, value string) error {
+func (blt BoltDB) Put(key string, value string) error {
   err := blt.db.Update(func(tx *bolt.Tx) error {
     b, err := tx.CreateBucketIfNotExists([]byte("DateOfBirths"))
     if err != nil {

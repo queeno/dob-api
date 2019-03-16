@@ -37,7 +37,7 @@ func TestCreateBoltDB(t *testing.T) {
   assert.True(t, bytes.Equal(tf, gf))
 }
 
-func TestStoreAndGetBoldData (t *testing.T){
+func TestPutAndGetBoldData (t *testing.T){
   dbFileName := t.Name() + ".dbtest"
 
   // Create DB
@@ -53,7 +53,7 @@ func TestStoreAndGetBoldData (t *testing.T){
 
   for key, value := range testData {
     // Populates the DB
-    err := boltDB.Store(key, value)
+    err := boltDB.Put(key, value)
 
     if err != nil {
       t.Fatal(err)
