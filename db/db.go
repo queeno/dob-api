@@ -1,7 +1,9 @@
 package db
 
 type Database interface {
-  Initialise() error
-  Store(string, string) error
+  Open(string) error
+  Close()
+  Put(string, string) error
   Get(string) (string, error)
+
 }

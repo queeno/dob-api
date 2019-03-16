@@ -45,14 +45,16 @@ func (blt *BoltDB) Close() {
   blt.db.Close()
 }
 
-func (blt *BoltDB) Open(location string) {
+func (blt *BoltDB) Open(location string) error {
 	fmt.Println(location)
 	db, err := bolt.Open(location, 0600, &bolt.Options{Timeout: 1 * time.Second})
 
 	if err != nil {
-		panic(err)
+		return err
 	}
 
 	blt.db = db
 	blt.filePath = location
+
+	return nil
 }

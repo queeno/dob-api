@@ -16,7 +16,12 @@ func TestCreateBoltDB(t *testing.T) {
 
   // Create DB
   boltDB := new(BoltDB)
-  boltDB.Open(dbFileName)
+
+  err := boltDB.Open(dbFileName)
+  if err != nil {
+    t.Fatal(err)
+  }
+
   defer boltDB.Close()
 
   gf, err := ioutil.ReadFile(filepath.Join("testdata", dbGoldenFileName))
@@ -42,7 +47,11 @@ func TestPutAndGetBoldData (t *testing.T){
 
   // Create DB
   boltDB := new(BoltDB)
-  boltDB.Open(dbFileName)
+
+  err := boltDB.Open(dbFileName)
+  if err != nil {
+    t.Fatal(err)
+  }
 
   testData := map[string]string{
     "simon": "1988-05-21",
@@ -65,7 +74,7 @@ func TestPutAndGetBoldData (t *testing.T){
     assert.Equal(t, result, value)
   }
 
-  err := os.Remove(dbFileName)
+  err = os.Remove(dbFileName)
   if err != nil {
     t.Fatal(err)
   }
@@ -77,7 +86,11 @@ func TestGetBoldData (t *testing.T) {
 
   // Create DB
   boltDB := new(BoltDB)
-  boltDB.Open(filepath.Join("testdata", dbGoldenFileName))
+
+  err := boltDB.Open(filepath.Join("testdata", dbGoldenFileName))
+  if err != nil {
+    t.Fatal(err)
+  }
 
   defer boltDB.Close()
 
