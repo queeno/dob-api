@@ -34,7 +34,7 @@ func TestGetDateOfBirth(t *testing.T) {
     {"s1m0n", "1980-04-20", errors.New("The username provided s1m0n didn't validate")},
   }
 
-  validator := &mockValidator{}
+  validator := &MockValidator{}
 
   validator.
     On("validateUsername", "simon").
@@ -88,7 +88,7 @@ func TestUpdateUsername(t *testing.T) {
     {"s1m0n", "2099-04-20", errors.New("The username provided s1m0n didn't validate")},
   }
 
-  validator := &mockValidator{}
+  validator := &MockValidator{}
 
   validator.
     On("validateUsername", "simon").
