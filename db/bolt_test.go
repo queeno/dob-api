@@ -35,7 +35,7 @@ func TestCreateBoltDB(t *testing.T) {
   assert.True(t, bytes.Equal(tf, gf))
 }
 
-func TestStoreAndGetData (t *testing.T){
+func TestStoreAndGetBoldData (t *testing.T){
   dbFileName := t.Name() + ".dbtest"
 
   boltDB := NewBoltDB(dbFileName)
@@ -69,7 +69,7 @@ func TestStoreAndGetData (t *testing.T){
 }
 
 
-func TestGetData (t *testing.T) {
+func TestGetBoldData (t *testing.T) {
   dbGoldenFileName := t.Name() + ".golden"
 
   // Create DB
