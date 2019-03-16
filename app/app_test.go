@@ -11,6 +11,17 @@ import (
   "github.com/stretchr/testify/assert"
 )
 
+func TestInitialise(t *testing.T){
+  db := &db.MockDatabase{}
+  app := new(App)
+
+  app.Initialise(db)
+
+  fmt.Println("Testing app has been correctly initialised")
+  assert.Equal(t, db, app.db)
+  fmt.Println("PASS: App correctly initialised")
+}
+
 func TestGetDateOfBirth(t *testing.T) {
 
   tcs := []struct{

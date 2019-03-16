@@ -5,21 +5,21 @@ import (
   "time"
 )
 
-type validator interface {
+type Validator interface {
   validateUsername(string) (bool, error)
   validateDateOfBirth(string) (bool, error)
 }
 
-type DobValidator struct {
-  validator validator
+type dobValidator struct {
+  validator Validator
 }
 
 
-func (v DobValidator) validateUsername(username string) (bool, error) {
+func (v dobValidator) validateUsername(username string) (bool, error) {
   return regexp.MatchString(`^[a-zA-Z]+$`, username)
 }
 
-func (v DobValidator) validateDateOfBirth(dob string) (bool, error) {
+func (v dobValidator) validateDateOfBirth(dob string) (bool, error) {
   // Match format
   matched, err := regexp.MatchString(`^\d{4}-\d{2}-\d{2}$`, dob)
   if !matched || err != nil {

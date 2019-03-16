@@ -28,7 +28,7 @@ func TestDateOfBirth(t *testing.T) {
   }
 
   for _, tc := range tcs {
-    dbv := new(DobValidator)
+    dbv := new(dobValidator)
 
     fmt.Println(fmt.Sprintf("Testing dob: %s",tc.Dob))
     match, err := dbv.validateDateOfBirth(tc.Dob)
@@ -58,7 +58,7 @@ func TestUsername(t *testing.T) {
   }
 
   for _, tc := range tcs {
-    dbv := new(DobValidator)
+    dbv := new(dobValidator)
 
     fmt.Println(fmt.Sprintf("Testing username: %s, match: %t",tc.Username, tc.Match))
     match, err := dbv.validateUsername(tc.Username)

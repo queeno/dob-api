@@ -10,12 +10,18 @@ import (
 type MyApp interface {
   UpdateUsername(string, string) (error)
   GetDateOfBirth(string) (string, error)
+  Initalise(db.Database)
 }
 
 type App struct {
   app MyApp
-  validator validator
+  validator Validator
   db db.Database
+}
+
+func (a *App) Initialise(db db.Database) {
+  a.db = db
+  a.validator = &dobValidator{}
 }
 
 func (a App) UpdateUsername(username string, dateofbirth string) error {
