@@ -20,12 +20,18 @@ func getUser(w http.ResponseWriter, r *http.Request){
   log.Println("Get User function")
 }
 
-func Run() int {
+func newRouter() *mux.Router {
   router := mux.NewRouter()
 
   // Adding routes
-  router.HandleFunc("/hello/{username:[a-zA-Z0-9]+}", putUser).Methods("PUT")
-  router.HandleFunc("/hello/{username:[a-zA-Z0-9]+}", getUser).Methods("GET")
+  router.HandleFunc("/hello/{username:[a-zA-Z]+}", putUser).Methods("PUT")
+  router.HandleFunc("/hello/{username:[a-zA-Z]+}", getUser).Methods("GET")
+
+  return router
+}
+
+func Run() int {
+  router := newRouter()
 
   // Create a server
   log.Println("Starting server on 0.0.0.0:8000")

@@ -6,7 +6,6 @@ import (
     "testing"
     "fmt"
 
-    "github.com/gorilla/mux"
     "github.com/stretchr/testify/assert"
 )
 
@@ -16,7 +15,14 @@ func TestGetUser(t *testing.T) {
         returnCode int
     }{
         {"simon", http.StatusOK},
+        {"SIMon", http.StatusOK},
+        {"SIMON", http.StatusOK},
+        {"s1m0n", http.StatusNotFound},
+        {"S1m0n", http.StatusNotFound},
+        {"", http.StatusNotFound},
     }
+
+    router := newRouter()
 
     for _, tc := range tcs {
       // Creates the request
@@ -30,11 +36,9 @@ func TestGetUser(t *testing.T) {
       resp := httptest.NewRecorder()
 
       // Fires the request
-      router := mux.NewRouter()
-      router.HandleFunc("/hello/{username:[a-zA-Z0-9]+}", getUser)
       router.ServeHTTP(resp, req)
 
       // Asserts
-      assert.Equal(t, resp.Code, http.StatusOK)
+      assert.Equal(t, resp.Code, tc.returnCode)
     }
 }
