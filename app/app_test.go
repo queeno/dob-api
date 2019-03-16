@@ -15,10 +15,11 @@ func TestInitialise(t *testing.T){
   db := &db.MockDatabase{}
   app := new(App)
 
-  app.Initialise(db)
+  app.Initialise(db, "dob-api.dbtest")
 
   fmt.Println("Testing app has been correctly initialised")
-  assert.Equal(t, db, app.db)
+  assert.Equal(t, app.db, db)
+  assert.Equal(t, app.dbLocation, "dob-api.dbtest")
   fmt.Println("PASS: App correctly initialised")
 }
 
@@ -47,7 +48,7 @@ func TestGetDateOfBirth(t *testing.T) {
   db := &db.MockDatabase{}
 
   db.
-    On("Open", "dob-api.db").
+    On("Open", "dob-api.dbtest").
     Return(nil).
     On("Close").
     Return().
@@ -59,6 +60,7 @@ func TestGetDateOfBirth(t *testing.T) {
   app := &App {
     validator: validator,
     db: db,
+    dbLocation: "dob-api.dbtest",
   }
 
   for _, tc := range tcs {
@@ -103,7 +105,7 @@ func TestUpdateUsername(t *testing.T) {
   db := &db.MockDatabase{}
 
   db.
-    On("Open", "dob-api.db").
+    On("Open", "dob-api.dbtest").
     Return(nil).
     On("Close").
     Return().
@@ -113,6 +115,7 @@ func TestUpdateUsername(t *testing.T) {
   app := &App {
     validator: validator,
     db: db,
+    dbLocation: "dob-api.dbtest",
   }
 
   for _, tc := range tcs {

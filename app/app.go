@@ -17,10 +17,12 @@ type App struct {
   app MyApp
   validator Validator
   db db.Database
+  dbLocation string
 }
 
-func (a *App) Initialise(db db.Database) {
+func (a *App) Initialise(db db.Database, dbLocation string) {
   a.db = db
+  a.dbLocation = dbLocation
   a.validator = &dobValidator{}
 }
 
@@ -41,7 +43,7 @@ func (a App) UpdateUsername(username string, dateofbirth string) error {
     return errors.New(fmt.Sprintf("The date of birth provided %s didn't validate", dateofbirth))
   }
 
-  err = a.db.Open("dob-api.db")
+  err = a.db.Open(a.dbLocation)
   if err != nil {
     return err
   }
@@ -64,7 +66,7 @@ func (a App) GetDateOfBirth(username string) (string, error) {
     return "", errors.New(fmt.Sprintf("The username provided %s didn't validate", username))
   }
 
-  err = a.db.Open("dob-api.db")
+  err = a.db.Open(a.dbLocation)
   if err != nil {
     return "", err
   }
