@@ -7,32 +7,96 @@ import (
   "os"
   "os/signal"
   "time"
+  "encoding/json"
+  "io/ioutil"
+
+  "github.com/queeno/dob-api/app"
+  "github.com/queeno/dob-api/db"
 
   "github.com/gorilla/mux"
 )
 
-func putUser(w http.ResponseWriter, r *http.Request){
-  w.Header().Set("Content-Type", "application/json")
+type Api struct {
+  router *mux.Router
+  app    app.MyApp
+}
+
+type userBirthday struct {
+  DateOfBirth string    `json:"dateOfBirth"`
+}
+
+type messageResponse struct {
+  Message string        `json:"message"`
+}
+
+
+func (a Api) putUser(w http.ResponseWriter, r *http.Request) {
+  params := mux.Vars(r)
+  username := params["username"]
+
+  if r.Body == nil {
+    w.WriteHeader(http.StatusInternalServerError)
+    w.Write([]byte("Please add a body to the request in the form: {\"dateOfBirth\": \"YYYY-MM-DD\" }"))
+    return
+  }
+
+  body, err := ioutil.ReadAll(r.Body)
+  if err != nil {
+    w.WriteHeader(http.StatusInternalServerError)
+    w.Write([]byte(err.Error()))
+    return
+  }
+
+  var uB userBirthday
+
+  err = json.Unmarshal(body, &uB)
+  if err != nil {
+    w.WriteHeader(http.StatusInternalServerError)
+    w.Write([]byte(err.Error()))
+    return
+  }
+
+  err = a.app.UpdateUsername(username, uB.DateOfBirth)
+  if err != nil {
+    w.WriteHeader(http.StatusInternalServerError)
+    w.Write([]byte(err.Error()))
+    return
+  }
+  w.WriteHeader(http.StatusNoContent)
+}
+
+func (a Api) getUser(w http.ResponseWriter, r *http.Request) {
+  params := mux.Vars(r)
+  username := params["username"]
+
+  message, err := a.app.GetDateOfBirth(username)
+  if err != nil {
+    w.WriteHeader(http.StatusInternalServerError)
+    w.Write([]byte(err.Error()))
+    return
+  }
+
+  mR := &messageResponse{
+    Message: message,
+  }
+
+  jsonResponse, err := json.Marshal(mR)
+  if err != nil {
+    w.WriteHeader(http.StatusInternalServerError)
+    w.Write([]byte(err.Error()))
+    return
+  }
+
   w.WriteHeader(http.StatusOK)
+  w.Write(jsonResponse)
 }
 
-func getUser(w http.ResponseWriter, r *http.Request){
-  log.Println("Get User function")
+func (a *Api) addRoutes() {
+  a.router.HandleFunc("/hello/{username:[[:alnum:]]+}", a.putUser).Methods("PUT")
+  a.router.HandleFunc("/hello/{username:[[:alnum:]]+}", a.getUser).Methods("GET")
 }
 
-func newRouter() *mux.Router {
-  router := mux.NewRouter()
-
-  // Adding routes
-  router.HandleFunc("/hello/{username:[a-zA-Z]+}", putUser).Methods("PUT")
-  router.HandleFunc("/hello/{username:[a-zA-Z]+}", getUser).Methods("GET")
-
-  return router
-}
-
-func Run() int {
-  router := newRouter()
-
+func (a Api) RunServer() int {
   // Create a server
   log.Println("Starting server on 0.0.0.0:8000")
   server := &http.Server{
@@ -40,7 +104,7 @@ func Run() int {
       WriteTimeout: time.Second * 15,
       ReadTimeout:  time.Second * 15,
       IdleTimeout:  time.Second * 60,
-      Handler: router,
+      Handler: a.router,
   }
 
   // Run the server
@@ -63,4 +127,19 @@ func Run() int {
 
   log.Println("Gracefully shutting down...")
   return 0
+}
+
+func newRouter() *mux.Router {
+  return mux.NewRouter()
+}
+
+func NewApi() *Api {
+  api := &Api{
+    router: newRouter(),
+    app: app.NewApp(&db.BoltDB{
+      FilePath: "dob-api.db",
+    }),
+  }
+  api.addRoutes()
+  return api
 }
