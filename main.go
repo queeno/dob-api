@@ -6,6 +6,6 @@ import (
 )
 
 func main() {
-  api := api.NewApi()
+  api := api.NewApi("dob-api.db")
   os.Exit(api.RunServer())
 }

@@ -133,11 +133,11 @@ func newRouter() *mux.Router {
   return mux.NewRouter()
 }
 
-func NewApi() *Api {
+func NewApi(databaseLocation string) *Api {
   api := &Api{
     router: newRouter(),
     app: app.NewApp(&db.BoltDB{
-      FilePath: "dob-api.db",
+      FilePath: databaseLocation,
     }),
   }
   api.addRoutes()
