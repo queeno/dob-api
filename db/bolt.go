@@ -11,15 +11,18 @@ type BoltDB struct {
   FilePath string
 }
 
-func (blt BoltDB) Get(key string) string {
+func (blt BoltDB) Get(key string) (string, error) {
   value := make([]byte, 0)
-  blt.db.View(func(tx *bolt.Tx) error {
+  err := blt.db.View(func(tx *bolt.Tx) error {
     bucket := tx.Bucket([]byte("DateOfBirths"))
+    if bucket == nil {
+      return nil
+    }
 	  value = bucket.Get([]byte(key))
     return nil
   })
 
-  return string(value)
+  return string(value), err
 }
 
 

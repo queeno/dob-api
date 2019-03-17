@@ -76,7 +76,11 @@ func TestPutAndGetBoldData (t *testing.T){
   }
 
   for key, value := range testData {
-    result := boltDB.Get(key)
+    result, err := boltDB.Get(key)
+    if err != nil {
+      t.Fatal(err)
+    }
+
     assert.Equal(t, result, value)
   }
 
@@ -86,6 +90,32 @@ func TestPutAndGetBoldData (t *testing.T){
   }
 }
 
+func TestGetOnEmptyDB (t *testing.T){
+  dbFileName := t.Name() + ".dbtest"
+
+  boltDB := &BoltDB{
+    db: nil,
+    FilePath: t.Name() + ".dbtest",
+  }
+
+  err := boltDB.Open()
+  if err != nil {
+    t.Fatal(err)
+  }
+
+  result, err := boltDB.Get("simon")
+  if err != nil {
+    t.Fatal(err)
+  }
+
+  assert.Equal(t, result, "")
+
+  err = os.Remove(dbFileName)
+  if err != nil {
+    t.Fatal(err)
+  }
+
+}
 
 func TestGetBoldData (t *testing.T) {
   dbGoldenFileName := t.Name() + ".golden"
@@ -107,12 +137,16 @@ func TestGetBoldData (t *testing.T) {
     "simon": "1988-05-21",
     "kolja": "2001-04-20",
     "Khristine": "1004-30-12",
-    "Carl": "",
+    "Georgeos": "",
   }
 
   for key, value := range testData {
-    result := boltDB.Get(key)
-    assert.Equal(t, result, value)
+    result, err := boltDB.Get(key)
+    if err != nil {
+      t.Fatal(err)
+    }
+
+    assert.Equal(t, value, result)
   }
 
   testWrongData := map[string]string{
@@ -121,7 +155,11 @@ func TestGetBoldData (t *testing.T) {
   }
 
   for key, value := range testWrongData {
-    result := boltDB.Get(key)
-    assert.NotEqual(t, result, value)
+    result, err := boltDB.Get(key)
+    if err != nil {
+      t.Fatal(err)
+    }
+
+    assert.NotEqual(t, value, result)
   }
 }
