@@ -15,9 +15,12 @@ func TestCreateBoltDB(t *testing.T) {
   dbGoldenFileName := t.Name() + ".golden"
 
   // Create DB
-  boltDB := new(BoltDB)
+  boltDB := &BoltDB{
+    db: nil,
+    filePath: dbFileName,
+  }
 
-  err := boltDB.Open(dbFileName)
+  err := boltDB.Open()
   if err != nil {
     t.Fatal(err)
   }
@@ -46,9 +49,12 @@ func TestPutAndGetBoldData (t *testing.T){
   dbFileName := t.Name() + ".dbtest"
 
   // Create DB
-  boltDB := new(BoltDB)
+  boltDB := &BoltDB{
+    db: nil,
+    filePath: dbFileName,
+  }
 
-  err := boltDB.Open(dbFileName)
+  err := boltDB.Open()
   if err != nil {
     t.Fatal(err)
   }
@@ -85,9 +91,12 @@ func TestGetBoldData (t *testing.T) {
   dbGoldenFileName := t.Name() + ".golden"
 
   // Create DB
-  boltDB := new(BoltDB)
+  boltDB := &BoltDB{
+    db: nil,
+    filePath: filepath.Join("testdata", dbGoldenFileName),
+  }
 
-  err := boltDB.Open(filepath.Join("testdata", dbGoldenFileName))
+  err := boltDB.Open()
   if err != nil {
     t.Fatal(err)
   }
