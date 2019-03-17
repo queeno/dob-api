@@ -6,5 +6,6 @@ import (
 )
 
 func main() {
-  os.Exit(api.Run())
+  api := api.NewApi()
+  os.Exit(api.RunServer())
 }

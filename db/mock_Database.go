@@ -15,7 +15,7 @@ func (_m *MockDatabase) Close() {
 }
 
 // Get provides a mock function with given fields: _a0
-func (_m *MockDatabase) Get(_a0 string) string {
+func (_m *MockDatabase) Get(_a0 string) (string, error) {
 	ret := _m.Called(_a0)
 
 	var r0 string
@@ -25,7 +25,14 @@ func (_m *MockDatabase) Get(_a0 string) string {
 		r0 = ret.Get(0).(string)
 	}
 
-	return r0
+	var r1 error
+	if rf, ok := ret.Get(1).(func(string) error); ok {
+		r1 = rf(_a0)
+	} else {
+		r1 = ret.Error(1)
+	}
+
+	return r0, r1
 }
 
 // Open provides a mock function with given fields:

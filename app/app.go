@@ -66,7 +66,7 @@ func (a App) GetDateOfBirth(username string) (string, error) {
   }
   defer a.db.Close()
 
-  dob := a.db.Get(username)
+  dob, err := a.db.Get(username)
   if err != nil {
     return "", err
   }

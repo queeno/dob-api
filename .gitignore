@@ -1,3 +1,4 @@
 .DS_Store
 vendor/
 dob-api
+dob-api.db
