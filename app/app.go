@@ -3,6 +3,7 @@ package app
 import (
   "errors"
   "fmt"
+  "time"
 
   "github.com/queeno/dob-api/db"
 )
@@ -17,13 +18,6 @@ type App struct {
   app MyApp
   validator Validator
   db db.Database
-  dbLocation string
-}
-
-func (a *App) Initialise(db db.Database, dbLocation string) {
-  a.db = db
-  a.dbLocation = dbLocation
-  a.validator = &dobValidator{}
 }
 
 func (a App) UpdateUsername(username string, dateofbirth string) error {
@@ -43,7 +37,7 @@ func (a App) UpdateUsername(username string, dateofbirth string) error {
     return errors.New(fmt.Sprintf("The date of birth provided %s didn't validate", dateofbirth))
   }
 
-  err = a.db.Open(a.dbLocation)
+  err = a.db.Open()
   if err != nil {
     return err
   }
@@ -66,7 +60,7 @@ func (a App) GetDateOfBirth(username string) (string, error) {
     return "", errors.New(fmt.Sprintf("The username provided %s didn't validate", username))
   }
 
-  err = a.db.Open(a.dbLocation)
+  err = a.db.Open()
   if err != nil {
     return "", err
   }
@@ -77,5 +71,26 @@ func (a App) GetDateOfBirth(username string) (string, error) {
     return "", err
   }
 
-  return dob, nil
+  dateStamp, err := time.Parse("2006-01-02", dob)
+  if err != nil {
+    return "", err
+  }
+
+  today := time.Now()
+  hoursRemaining := dateStamp.Sub(today).Hours()
+  daysRemaining := int64(hoursRemaining / 24)
+
+  if daysRemaining == 0 {
+    return fmt.Sprintf("Hello, %s! Happy birthday!", username), nil
+  }
+
+  return fmt.Sprintf("Hello, %s! Your birthday is in %d day(s)", username, daysRemaining), nil
+}
+
+func NewApp(db db.Database) *App {
+  app := &App {
+    validator: &dobValidator{},
+    db: db,
+  }
+  return app
 }

@@ -34,9 +34,9 @@ func TestDateOfBirth(t *testing.T) {
     match, err := dbv.validateDateOfBirth(tc.Dob)
 
     if tc.Error != nil {
-      assert.Error(t, err, tc.Error)
+      assert.Error(t, tc.Error, err)
     } else {
-      assert.Equal(t, match, tc.Match)
+      assert.Equal(t, tc.Match, match)
       fmt.Println(fmt.Sprintf("PASS: Result match: %t", match))
     }
   }
@@ -64,9 +64,9 @@ func TestUsername(t *testing.T) {
     match, err := dbv.validateUsername(tc.Username)
 
     if tc.Error != nil {
-      assert.Error(t, err, tc.Error)
+      assert.Error(t, tc.Error, err)
     } else {
-      assert.Equal(t, match, tc.Match)
+      assert.Equal(t, tc.Match, match)
       fmt.Println(fmt.Sprintf("PASS: Result match: %t", match))
     }
   }

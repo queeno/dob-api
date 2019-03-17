@@ -4,6 +4,7 @@ import (
   "testing"
   "fmt"
   "errors"
+  "time"
 
   "github.com/queeno/dob-api/db"
 
@@ -11,27 +12,36 @@ import (
   "github.com/stretchr/testify/assert"
 )
 
-func TestInitialise(t *testing.T){
+func TestNewApp(t *testing.T){
   db := &db.MockDatabase{}
-  app := new(App)
-
-  app.Initialise(db, "dob-api.dbtest")
+  app := NewApp(db)
 
   fmt.Println("Testing app has been correctly initialised")
   assert.Equal(t, app.db, db)
-  assert.Equal(t, app.dbLocation, "dob-api.dbtest")
   fmt.Println("PASS: App correctly initialised")
 }
 
 func TestGetDateOfBirth(t *testing.T) {
 
+  currentDate := time.Now().Format("2006-01-02")
+  simonsBirthday, err := time.Parse("2006-01-02", "2099-04-20")
+  if err != nil {
+    t.Fatal(err)
+    return
+  }
+
+  today := time.Now()
+  hoursRemaining := simonsBirthday.Sub(today).Hours()
+  daysRemaining := int64(hoursRemaining / 24)
+
   tcs := []struct{
     Username string
-    Dob string
+    Message string
     Error error
   }{
-    {"simon", "1980-04-20", nil},
-    {"anita", "", nil},
+    {"simon", fmt.Sprintf("Hello, simon! Your birthday is in %d day(s)", daysRemaining), nil},
+    {"anita", "Hello, anita! Happy birthday!", nil},
+    {"jane", "", errors.New("")},
     {"s1m0n", "1980-04-20", errors.New("The username provided s1m0n didn't validate")},
   }
 
@@ -39,6 +49,8 @@ func TestGetDateOfBirth(t *testing.T) {
 
   validator.
     On("validateUsername", "simon").
+    Return(true, nil).
+    On("validateUsername", "jane").
     Return(true, nil).
     On("validateUsername", "s1m0n").
     Return(false, nil).
@@ -48,30 +60,31 @@ func TestGetDateOfBirth(t *testing.T) {
   db := &db.MockDatabase{}
 
   db.
-    On("Open", "dob-api.dbtest").
+    On("Open").
     Return(nil).
     On("Close").
     Return().
     On("Get", "simon").
-    Return("1980-04-20", nil).
+    Return("2099-04-20", nil).
     On("Get", "anita").
+    Return(currentDate, nil).
+    On("Get", "jane").
     Return("", nil)
 
   app := &App {
     validator: validator,
     db: db,
-    dbLocation: "dob-api.dbtest",
   }
 
   for _, tc := range tcs {
     fmt.Println(fmt.Sprintf("Testing username: %s",tc.Username))
     res, err := app.GetDateOfBirth(tc.Username)
 
-    if tc.Error != nil {
-      assert.Equal(t, err.Error(), tc.Error.Error())
-      fmt.Println(fmt.Sprintf("PASS: Error asserted: %s",tc.Error.Error()))
+    if err != nil {
+      assert.Error(t, tc.Error, err)
+      fmt.Println(fmt.Sprintf("PASS: Error asserted: %s",err))
     } else {
-      assert.Equal(t, res, tc.Dob)
+      assert.Equal(t, tc.Message, res)
       fmt.Println(fmt.Sprintf("PASS: Result match: %s", res))
     }
   }
@@ -105,7 +118,7 @@ func TestUpdateUsername(t *testing.T) {
   db := &db.MockDatabase{}
 
   db.
-    On("Open", "dob-api.dbtest").
+    On("Open").
     Return(nil).
     On("Close").
     Return().
@@ -115,18 +128,17 @@ func TestUpdateUsername(t *testing.T) {
   app := &App {
     validator: validator,
     db: db,
-    dbLocation: "dob-api.dbtest",
   }
 
   for _, tc := range tcs {
     fmt.Println(fmt.Sprintf("Testing username: %s, dob: %s",tc.Username, tc.Dob))
     err := app.UpdateUsername(tc.Username, tc.Dob)
 
-    if tc.Error != nil {
-      assert.Equal(t, err.Error(), tc.Error.Error())
-      fmt.Println(fmt.Sprintf("PASS: Error asserted: %s",tc.Error.Error()))
+    if err != nil {
+      assert.Error(t, tc.Error, err)
+      fmt.Println(fmt.Sprintf("PASS: Error asserted: %s",err))
     } else {
-      assert.NoError(t, err, tc.Error)
+      assert.NoError(t, tc.Error, err)
       fmt.Println("PASS: No error")
     }
   }
