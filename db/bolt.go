@@ -8,7 +8,7 @@ import (
 
 type BoltDB struct {
   db *bolt.DB
-  filePath string
+  FilePath string
 }
 
 func (blt BoltDB) Get(key string) string {
@@ -44,7 +44,7 @@ func (blt *BoltDB) Close() {
 }
 
 func (blt *BoltDB) Open() error {
-	db, err := bolt.Open(blt.filePath, 0600, &bolt.Options{Timeout: 1 * time.Second})
+	db, err := bolt.Open(blt.FilePath, 0600, &bolt.Options{Timeout: 1 * time.Second})
 
 	if err != nil {
 		return err

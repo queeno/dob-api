@@ -17,7 +17,7 @@ func TestCreateBoltDB(t *testing.T) {
   // Create DB
   boltDB := &BoltDB{
     db: nil,
-    filePath: dbFileName,
+    FilePath: dbFileName,
   }
 
   err := boltDB.Open()
@@ -51,7 +51,7 @@ func TestPutAndGetBoldData (t *testing.T){
   // Create DB
   boltDB := &BoltDB{
     db: nil,
-    filePath: dbFileName,
+    FilePath: dbFileName,
   }
 
   err := boltDB.Open()
@@ -93,7 +93,7 @@ func TestGetBoldData (t *testing.T) {
   // Create DB
   boltDB := &BoltDB{
     db: nil,
-    filePath: filepath.Join("testdata", dbGoldenFileName),
+    FilePath: filepath.Join("testdata", dbGoldenFileName),
   }
 
   err := boltDB.Open()
