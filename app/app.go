@@ -11,7 +11,6 @@ import (
 type MyApp interface {
   UpdateUsername(string, string) (error)
   GetDateOfBirth(string) (string, error)
-  Initalise(db.Database)
 }
 
 type App struct {
@@ -67,7 +66,7 @@ func (a App) GetDateOfBirth(username string) (string, error) {
   }
   defer a.db.Close()
 
-  dob, err := a.db.Get(username)
+  dob := a.db.Get(username)
   if err != nil {
     return "", err
   }

@@ -82,13 +82,13 @@ func TestGetDateOfBirth(t *testing.T) {
     On("Close").
     Return().
     On("Get", "simon").
-    Return("2099-04-20", nil).
+    Return("2099-04-20").
     On("Get", "anita").
-    Return("2099-04-20", nil).
+    Return("2099-04-20").
     On("Get", "jane").
-    Return("", nil).
+    Return("").
     On("Get", "s1m0n").
-    Return("2099-04-10", nil)
+    Return("2099-04-10")
 
   for _, tc := range tcs {
     app := &App {
