@@ -12,6 +12,7 @@ type Validator interface {
 
 type dobValidator struct {
   validator Validator
+  today time.Time
 }
 
 
@@ -32,9 +33,7 @@ func (v dobValidator) validateDateOfBirth(dob string) (bool, error) {
     return false, err
   }
 
-  today := time.Now()
-
-  if dateStamp.After(today){
+  if dateStamp.After(v.today){
     return false, nil
   }
 

@@ -99,10 +99,14 @@ func (a App) daysRemainingToNextBirthday(dateOfBirth time.Time) int {
 }
 
 func NewApp(db db.Database) *App {
+  today := time.Now()
+
   app := &App {
-    validator: &dobValidator{},
+    validator: &dobValidator{
+      today: today,
+    },
     db: db,
-    today: time.Now(),
+    today: today,
   }
   return app
 }
