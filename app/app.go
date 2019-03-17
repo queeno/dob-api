@@ -18,6 +18,7 @@ type App struct {
   app MyApp
   validator Validator
   db db.Database
+  today time.Time
 }
 
 func (a App) UpdateUsername(username string, dateofbirth string) error {
@@ -76,9 +77,7 @@ func (a App) GetDateOfBirth(username string) (string, error) {
     return "", err
   }
 
-  today := time.Now()
-  hoursRemaining := dateStamp.Sub(today).Hours()
-  daysRemaining := int64(hoursRemaining / 24)
+  daysRemaining := a.daysRemainingToNextBirthday(dateStamp)
 
   if daysRemaining == 0 {
     return fmt.Sprintf("Hello, %s! Happy birthday!", username), nil
@@ -87,10 +86,23 @@ func (a App) GetDateOfBirth(username string) (string, error) {
   return fmt.Sprintf("Hello, %s! Your birthday is in %d day(s)", username, daysRemaining), nil
 }
 
+func (a App) daysRemainingToNextBirthday(dateOfBirth time.Time) int {
+  displacement := 0
+  nextBirthday := time.Date(a.today.Year(), dateOfBirth.Month(), dateOfBirth.Day(), 0, 0, 0, 0, time.UTC)
+
+  if nextBirthday.Before(a.today) {
+    nextBirthday = nextBirthday.AddDate(1,0,0)
+    displacement = time.Date(a.today.Year(), 12, 31, 0, 0, 0, 0, time.UTC).YearDay()
+  }
+
+  return (nextBirthday.YearDay() - a.today.YearDay()) + displacement
+}
+
 func NewApp(db db.Database) *App {
   app := &App {
     validator: &dobValidator{},
     db: db,
+    today: time.Now(),
   }
   return app
 }
