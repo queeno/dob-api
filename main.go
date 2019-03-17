@@ -5,7 +5,14 @@ import (
   "os"
 )
 
+func getDBPath() string {
+  if len(os.Args) > 1 {
+    return os.Args[1]
+  }
+  return "dob-api.db"
+}
+
 func main() {
-  api := api.NewApi("dob-api.db")
+  api := api.NewApi(getDBPath())
   os.Exit(api.RunServer())
 }
