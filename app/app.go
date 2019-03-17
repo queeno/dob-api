@@ -71,9 +71,13 @@ func (a App) GetDateOfBirth(username string) (string, error) {
     return "", err
   }
 
+  if dob == "" {
+    return "", errors.New(fmt.Sprintf("User %s doesn't exist in the database", username))
+  }
+
   dateStamp, err := time.Parse("2006-01-02", dob)
   if err != nil {
-    return "", err
+    return "", errors.New(fmt.Sprintf("Invalid date in the DB: %s", dateStamp))
   }
 
   daysRemaining := a.daysRemainingToNextBirthday(dateStamp)
