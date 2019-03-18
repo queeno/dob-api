@@ -4,9 +4,9 @@ import (
   "os"
 
   "github.com/queeno/dob-api/api"
-  thisLambda "github.com/queeno/dob-api/lambda"
+  "github.com/queeno/dob-api/lambda"
 
-  "github.com/aws/aws-lambda-go/lambda"
+  ll "github.com/aws/aws-lambda-go/lambda"
 )
 
 func amILambda() bool{
@@ -25,8 +25,7 @@ func getDBPath() string {
 
 func main() {
   if amILambda() {
-    myLambda := &thisLambda.Lambda{}
-    lambda.Start(myLambda.HandleRouteRequest)
+    ll.Start(lambda.NewLambda().HandleRouteRequest)
   } else {
     api := api.NewApi(getDBPath())
     os.Exit(api.RunServer())

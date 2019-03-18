@@ -80,8 +80,10 @@ func (l Lambda) handleGetUser(req events.APIGatewayProxyRequest) (events.APIGate
   return clientStatusOK(string(jsonResponse))
 }
 
-func (l *Lambda) init() {
-  l.app = app.NewApp(db.NewDynamoDB())
+func NewLambda() *Lambda {
+  return &Lambda{
+    app: app.NewApp(db.NewDynamoDB()),
+  }
 }
 
 func clientStatusOK(message string) (events.APIGatewayProxyResponse, error) {
