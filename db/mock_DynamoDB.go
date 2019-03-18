@@ -16,7 +16,7 @@ func (m mockDynamoDBClient) UpdateItem(item *dynamodb.UpdateItemInput) (*dynamod
 
 func (m mockDynamoDBClient) GetItem(item *dynamodb.GetItemInput) (*dynamodb.GetItemOutput, error){
   i := &Item{
-    Username: *item.Key["Username"].S,
+    Username: *item.Key["username"].S,
     DateOfBirth: "2011-01-01",
   }
 

@@ -9,8 +9,8 @@ import (
 )
 
 type Item struct {
-  Username    string    `json:"Username"`
-  DateOfBirth string    `json:"DateOfBirth"`
+  Username    string    `json:"username"`
+  DateOfBirth string    `json:"dateOfBirth"`
 }
 
 type DynamoDB struct {
@@ -23,7 +23,7 @@ func (d DynamoDB) Get(key string) (string, error) {
   q := &dynamodb.GetItemInput{
       TableName: aws.String("DateOfBirths"),
       Key: map[string]*dynamodb.AttributeValue{
-          "Username": {
+          "username": {
               S: aws.String(key),
           },
       },
