@@ -15,12 +15,12 @@ type DynamoDB struct {
 func (d DynamoDB) Get(key string) (string, error) {
 
   q := &dynamodb.GetItemInput{
-      TableName: aws.String("DateOfBirths"),
-      Key: map[string]*dynamodb.AttributeValue{
-          "username": {
-              S: aws.String(key),
-          },
+    TableName: aws.String("DateOfBirths"),
+    Key: map[string]*dynamodb.AttributeValue{
+      "username": {
+        S: aws.String(key),
       },
+    },
   }
 
   result, err := d.db.GetItem(q)
