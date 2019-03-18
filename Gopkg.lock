@@ -16,7 +16,7 @@
   version = "v1.9.0"
 
 [[projects]]
-  digest = "1:a41e4301d406b43a37950535baf3b08bf53b782be72d21bbb6b048f080633110"
+  digest = "1:884e66f56e25336925a7de71aef0f8bb37df3fa08875b2a5afd446d3bbd6137d"
   name = "github.com/aws/aws-sdk-go"
   packages = [
     "aws",
@@ -51,7 +51,6 @@
     "private/protocol/rest",
     "private/protocol/xml/xmlutil",
     "service/dynamodb",
-    "service/dynamodb/dynamodbattribute",
     "service/dynamodb/dynamodbiface",
     "service/sts",
   ]
@@ -134,7 +133,6 @@
     "github.com/aws/aws-sdk-go/aws",
     "github.com/aws/aws-sdk-go/aws/session",
     "github.com/aws/aws-sdk-go/service/dynamodb",
-    "github.com/aws/aws-sdk-go/service/dynamodb/dynamodbattribute",
     "github.com/aws/aws-sdk-go/service/dynamodb/dynamodbiface",
     "github.com/boltdb/bolt",
     "github.com/gorilla/mux",

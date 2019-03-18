@@ -6,3 +6,4 @@ coverage.txt
 .terraform/
 dob-api.zip
 .terraform.tfstate.lock.info
+terraform.tfstate*
