@@ -2,14 +2,8 @@ locals {
   lambda_file_name = "dob-api.zip"
 }
 
-resource "null_resource" "dob_api_zip" {
-  provisioner "local-exec" {
-    command = "[ ! -f ../dob-api ] && curl -L -o ../dob-api https://github.com/queeno/dob-api/releases/download/master/dob-api"
-  }
-}
-
 data "archive_file" "dob_api_zip" {
-  //depends_on  = ["null_resource.dob_api_zip"]
+  depends_on  = ["null_resource.dob_api_zip"]
   type        = "zip"
   source_file = "../dob-api"
   output_path = "${local.lambda_file_name}"
