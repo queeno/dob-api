@@ -3,7 +3,6 @@ locals {
 }
 
 data "archive_file" "dob_api_zip" {
-  depends_on  = ["null_resource.dob_api_zip"]
   type        = "zip"
   source_file = "../dob-api"
   output_path = "${local.lambda_file_name}"
