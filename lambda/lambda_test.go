@@ -58,7 +58,7 @@ func TestHandlePutUser(t *testing.T) {
     request := &events.APIGatewayProxyRequest{
       Body: fmt.Sprintf("{ \"dateOfBirth\": \"%s\" }", tc.Dob),
       HTTPMethod: "PUT",
-      QueryStringParameters: map[string]string{
+      PathParameters: map[string]string{
         "username": tc.Username,
       },
     }
@@ -112,7 +112,7 @@ func TestHandleGetUser(t *testing.T) {
     request := &events.APIGatewayProxyRequest{
       Body: tc.Body,
       HTTPMethod: "GET",
-      QueryStringParameters: map[string]string{
+      PathParameters: map[string]string{
         "username": tc.Username,
       },
     }

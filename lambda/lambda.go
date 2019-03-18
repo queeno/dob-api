@@ -38,7 +38,7 @@ func (l Lambda) HandleRouteRequest(req events.APIGatewayProxyRequest) (events.AP
 }
 
 func (l Lambda) handlePutUser(req events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
-  username := req.QueryStringParameters["username"]
+  username := req.PathParameters["username"]
 
   if req.Body == "" {
     eM := "Please add a body to the request in the form: {\"dateOfBirth\": \"YYYY-MM-DD\" }"
@@ -61,7 +61,7 @@ func (l Lambda) handlePutUser(req events.APIGatewayProxyRequest) (events.APIGate
 }
 
 func (l Lambda) handleGetUser(req events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
-  username := req.QueryStringParameters["username"]
+  username := req.PathParameters["username"]
 
   message, err := l.app.GetDateOfBirth(username)
   if err != nil {
