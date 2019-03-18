@@ -2,9 +2,15 @@
 
 
 [[projects]]
-  digest = "1:4d653e20ffcb2bceaf9e05ddb999ec20da29ca4a1072aa543d76295194ffea04"
+  digest = "1:f39fff1c04503565e175cb045fd0c1b917abccdae0be8900388363b2a5e0a10b"
   name = "github.com/aws/aws-lambda-go"
-  packages = ["events"]
+  packages = [
+    "events",
+    "lambda",
+    "lambda/handlertrace",
+    "lambda/messages",
+    "lambdacontext",
+  ]
   pruneopts = "UT"
   revision = "c83699c938a36c6d111f9837be9295184efeeb2e"
   version = "v1.9.0"
@@ -124,6 +130,7 @@
   analyzer-version = 1
   input-imports = [
     "github.com/aws/aws-lambda-go/events",
+    "github.com/aws/aws-lambda-go/lambda",
     "github.com/aws/aws-sdk-go/aws",
     "github.com/aws/aws-sdk-go/aws/session",
     "github.com/aws/aws-sdk-go/service/dynamodb",
