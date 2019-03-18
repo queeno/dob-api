@@ -10,8 +10,8 @@ import (
   "encoding/json"
   "io/ioutil"
 
-  "github.com/queeno/dob-api/app"
-  "github.com/queeno/dob-api/db"
+  "github.com/queeno/dob-api/dob-api/app"
+  "github.com/queeno/dob-api/dob-api/db"
 
   "github.com/gorilla/mux"
 )

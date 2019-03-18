@@ -4,8 +4,8 @@ import (
   "encoding/json"
   "errors"
 
-  "github.com/queeno/dob-api/app"
-  "github.com/queeno/dob-api/db"
+  "github.com/queeno/dob-api/dob-api/app"
+  "github.com/queeno/dob-api/dob-api/db"
 
   "github.com/aws/aws-lambda-go/events"
 )

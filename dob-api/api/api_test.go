@@ -9,7 +9,7 @@ import (
     "strings"
     "io/ioutil"
 
-    "github.com/queeno/dob-api/app"
+    "github.com/queeno/dob-api/dob-api/app"
 
     "github.com/stretchr/testify/assert"
 )

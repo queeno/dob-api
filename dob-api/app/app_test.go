@@ -6,7 +6,7 @@ import (
   "errors"
   "time"
 
-  "github.com/queeno/dob-api/db"
+  "github.com/queeno/dob-api/dob-api/db"
 
   "github.com/stretchr/testify/mock"
   "github.com/stretchr/testify/assert"

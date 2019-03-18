@@ -3,8 +3,8 @@ package main
 import (
   "os"
 
-  "github.com/queeno/dob-api/api"
-  thisLambda "github.com/queeno/dob-api/lambda"
+  "github.com/queeno/dob-api/dob-api/api"
+  thisLambda "github.com/queeno/dob-api/dob-api/lambda"
 
   "github.com/aws/aws-lambda-go/lambda"
 )

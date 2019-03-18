@@ -5,7 +5,7 @@ import(
   "os"
   "syscall"
 
-  "github.com/queeno/dob-api/api"
+  "github.com/queeno/dob-api/dob-api/api"
 )
 
 func TestMain (m *testing.M) {
