@@ -9,9 +9,11 @@ import (
   "github.com/aws/aws-lambda-go/lambda"
 )
 
-func mainLambda(){
-  myLambda := &thisLambda.Lambda{}
-  lambda.Start(myLambda.HandleRouteRequest)
+func amILambda() bool{
+  if lookup, _ := os.LookupEnv("AWS_EXECUTION_ENV"); lookup != "" {
+    return true
+  }
+  return false
 }
 
 func getDBPath() string {
@@ -22,6 +24,11 @@ func getDBPath() string {
 }
 
 func main() {
-  api := api.NewApi(getDBPath())
-  os.Exit(api.RunServer())
+  if amILambda() {
+    myLambda := &thisLambda.Lambda{}
+    lambda.Start(myLambda.HandleRouteRequest)
+  } else {
+    api := api.NewApi(getDBPath())
+    os.Exit(api.RunServer())
+  }
 }
