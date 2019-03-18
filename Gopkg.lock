@@ -2,6 +2,14 @@
 
 
 [[projects]]
+  digest = "1:4d653e20ffcb2bceaf9e05ddb999ec20da29ca4a1072aa543d76295194ffea04"
+  name = "github.com/aws/aws-lambda-go"
+  packages = ["events"]
+  pruneopts = "UT"
+  revision = "c83699c938a36c6d111f9837be9295184efeeb2e"
+  version = "v1.9.0"
+
+[[projects]]
   digest = "1:a41e4301d406b43a37950535baf3b08bf53b782be72d21bbb6b048f080633110"
   name = "github.com/aws/aws-sdk-go"
   packages = [
@@ -85,14 +93,6 @@
   version = "v1.0.0"
 
 [[projects]]
-  digest = "1:2e76a73cb51f42d63a2a1a85b3dc5731fd4faf6821b434bd0ef2c099186031d6"
-  name = "github.com/rs/xid"
-  packages = ["."]
-  pruneopts = "UT"
-  revision = "15d26544def341f036c5f8dca987a4cbe575032c"
-  version = "v1.2.1"
-
-[[projects]]
   digest = "1:ac83cf90d08b63ad5f7e020ef480d319ae890c208f8524622a2f3136e2686b02"
   name = "github.com/stretchr/objx"
   packages = ["."]
@@ -123,6 +123,7 @@
   analyzer-name = "dep"
   analyzer-version = 1
   input-imports = [
+    "github.com/aws/aws-lambda-go/events",
     "github.com/aws/aws-sdk-go/aws",
     "github.com/aws/aws-sdk-go/aws/session",
     "github.com/aws/aws-sdk-go/service/dynamodb",
@@ -130,7 +131,6 @@
     "github.com/aws/aws-sdk-go/service/dynamodb/dynamodbiface",
     "github.com/boltdb/bolt",
     "github.com/gorilla/mux",
-    "github.com/rs/xid",
     "github.com/stretchr/testify/assert",
     "github.com/stretchr/testify/mock",
   ]

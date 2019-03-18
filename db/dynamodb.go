@@ -76,3 +76,14 @@ func (d *DynamoDB) Open() error {
 
   return nil
 }
+
+func NewDynamoDB() *DynamoDB {
+  db := &DynamoDB{
+    Session: session.Must(session.NewSession(&aws.Config{
+    	Region: aws.String("eu-west-2"),
+    })),
+  }
+
+  _ = db.Open()
+  return db
+}
