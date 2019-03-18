@@ -1,6 +1,8 @@
 package db
 
 import (
+  "errors"
+
   "github.com/aws/aws-sdk-go/service/dynamodb/dynamodbiface"
 	"github.com/aws/aws-sdk-go/service/dynamodb"
   "github.com/aws/aws-sdk-go/aws/session"
@@ -28,7 +30,12 @@ func (d DynamoDB) Get(key string) (string, error) {
     return "", err
   }
 
-  return *result.Item["dateOfBirth"].S, nil
+  dob := result.Item["dateOfBirth"].S
+  if dob == nil {
+    return "", errors.New("dateOfBirth not set in DB")
+  }
+
+  return *dob, nil
 }
 
 func (d DynamoDB) Put(key string, value string) error {
