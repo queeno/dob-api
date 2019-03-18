@@ -12,6 +12,19 @@ import (
   "github.com/stretchr/testify/assert"
 )
 
+func TestHandleRouteRequest(t *testing.T) {
+  request := &events.APIGatewayProxyRequest{
+    HTTPMethod: "POST",
+  }
+
+  lambda := &Lambda{}
+
+  _, err := lambda.HandleRouteRequest(*request)
+
+  fmt.Println("Asserting that POST results in error")
+  assert.Error(t, err)
+}
+
 func TestHandlePutUser(t *testing.T) {
   tcs := []struct{
       Username string
@@ -44,12 +57,13 @@ func TestHandlePutUser(t *testing.T) {
   for _, tc := range(tcs) {
     request := &events.APIGatewayProxyRequest{
       Body: fmt.Sprintf("{ \"dateOfBirth\": \"%s\" }", tc.Dob),
+      HTTPMethod: "PUT",
       QueryStringParameters: map[string]string{
         "username": tc.Username,
       },
     }
 
-    response, err := lambda.HandlePutUser(*request)
+    response, err := lambda.HandleRouteRequest(*request)
 
     fmt.Println(fmt.Sprintf("Expected Status: %d. Got: %d", tc.Status, response.StatusCode))
     assert.Equal(t, tc.Status, response.StatusCode)
@@ -97,12 +111,13 @@ func TestHandleGetUser(t *testing.T) {
   for _, tc := range(tcs) {
     request := &events.APIGatewayProxyRequest{
       Body: tc.Body,
+      HTTPMethod: "GET",
       QueryStringParameters: map[string]string{
         "username": tc.Username,
       },
     }
 
-    response, err := lambda.HandleGetUser(*request)
+    response, err := lambda.HandleRouteRequest(*request)
 
     fmt.Println(fmt.Sprintf("Expected Status: %d. Got: %d", tc.Status, response.StatusCode))
     assert.Equal(t, tc.Status, response.StatusCode)

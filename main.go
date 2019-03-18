@@ -9,14 +9,9 @@ import (
   "github.com/aws/aws-lambda-go/lambda"
 )
 
-func mainPutUserEndpoint(){
+func mainLambda(){
   myLambda := &thisLambda.Lambda{}
-  lambda.Start(myLambda.HandlePutUser)
-}
-
-func mainGetUserEndpoint(){
-  myLambda := &thisLambda.Lambda{}
-  lambda.Start(myLambda.HandleGetUser)
+  lambda.Start(myLambda.HandleRouteRequest)
 }
 
 func getDBPath() string {

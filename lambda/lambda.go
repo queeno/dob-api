@@ -2,6 +2,7 @@ package lambda
 
 import (
   "encoding/json"
+  "errors"
 
   "github.com/queeno/dob-api/app"
   "github.com/queeno/dob-api/db"
@@ -27,7 +28,16 @@ type messageResponse struct {
   Message string        `json:"message"`
 }
 
-func (l Lambda) HandlePutUser(req events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
+func (l Lambda) HandleRouteRequest(req events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error){
+  if req.HTTPMethod == "PUT" {
+    return l.handlePutUser(req)
+  } else if req.HTTPMethod == "GET" {
+    return l.handleGetUser(req)
+  }
+  return events.APIGatewayProxyResponse{}, errors.New("Method not supported")
+}
+
+func (l Lambda) handlePutUser(req events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
   username := req.QueryStringParameters["username"]
 
   if req.Body == "" {
@@ -50,7 +60,7 @@ func (l Lambda) HandlePutUser(req events.APIGatewayProxyRequest) (events.APIGate
   return clientNoContent()
 }
 
-func (l Lambda) HandleGetUser(req events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
+func (l Lambda) handleGetUser(req events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
   username := req.QueryStringParameters["username"]
 
   message, err := l.app.GetDateOfBirth(username)
