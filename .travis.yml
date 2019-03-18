@@ -17,6 +17,10 @@ after_success:
   - bash <(curl -s https://codecov.io/bash)
   - go build -o dob-api .
 
+before_deploy:
+  - export TRAVIS_TAG=master
+  - git tag $TRAVIS_TAG
+
 deploy:
   provider: releases
   name: dob-api
@@ -26,5 +30,5 @@ deploy:
   skip_cleanup: true
   overwrite: true
   on:
-    branch: master
+    tag: true
     go: 'tip'
