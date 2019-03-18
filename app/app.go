@@ -5,7 +5,7 @@ import (
   "fmt"
   "time"
 
-  "github.com/queeno/dob-api/dob-api/db"
+  "github.com/queeno/dob-api/db"
 )
 
 type MyApp interface {

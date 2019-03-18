@@ -6,7 +6,7 @@ import (
   "errors"
   "fmt"
 
-  "github.com/queeno/dob-api/dob-api/app"
+  "github.com/queeno/dob-api/app"
 
   "github.com/aws/aws-lambda-go/events"
   "github.com/stretchr/testify/assert"
