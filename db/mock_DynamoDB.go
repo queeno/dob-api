@@ -10,7 +10,7 @@ type mockDynamoDBClient struct {
   dynamodbiface.DynamoDBAPI
 }
 
-func (m mockDynamoDBClient) UpdateItem(item *dynamodb.UpdateItemInput) (*dynamodb.UpdateItemOutput, error){
+func (m mockDynamoDBClient) PutItem(item *dynamodb.PutItemInput) (*dynamodb.PutItemOutput, error){
   return nil, nil
 }
 

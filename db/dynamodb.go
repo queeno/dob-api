@@ -40,22 +40,19 @@ func (d DynamoDB) Get(key string) (string, error) {
 
 func (d DynamoDB) Put(key string, value string) error {
 
-  input := &dynamodb.UpdateItemInput{
-    TableName:                  aws.String("dateOfBirths"),
-    Key:                        map[string]*dynamodb.AttributeValue{
-      "username": {
-        S: aws.String(key),
-      },
-    },
-    UpdateExpression:           aws.String("SET dateOfBirth = :dob"),
-    ExpressionAttributeValues:  map[string]*dynamodb.AttributeValue{
+  input := &dynamodb.PutItemInput{
+    TableName:  aws.String("dateOfBirths"),
+    Item:       map[string]*dynamodb.AttributeValue{
 			":dob": {
 				S: aws.String(value),
 			},
+      ":username":{
+        S: aws.String(key),
+      },
 		},
   }
 
-  _, err := d.db.UpdateItem(input)
+  _, err := d.db.PutItem(input)
   if err != nil {
     return err
   }
