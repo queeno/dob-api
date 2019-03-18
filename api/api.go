@@ -107,25 +107,31 @@ func (a Api) RunServer() int {
       Handler: a.router,
   }
 
+  idleConnsClosed := make(chan struct{})
   // Run the server
   go func() {
-      if err := server.ListenAndServe(); err != nil {
-          log.Fatal(err)
-      }
+    // Catch the interrupt signal and shutdown
+    c := make(chan os.Signal, 1)
+    signal.Notify(c, os.Interrupt)
+
+    <-c
+    log.Println("Gracefully shutting down...")
+
+    ctx, cancel := context.WithTimeout(context.Background(), 15*time.Second)
+    defer cancel()
+
+    if err := server.Shutdown(ctx); err != nil {
+      log.Fatal(err)
+    }
+    close(idleConnsClosed)
   }()
 
-  // Catch the interrupt signal and shutdown
-  c := make(chan os.Signal, 1)
-  signal.Notify(c, os.Interrupt)
+  if err := server.ListenAndServe(); err != nil {
+      log.Println(err)
+  }
 
-  <-c
+  <-idleConnsClosed
 
-  ctx, cancel := context.WithTimeout(context.Background(), 15)
-  defer cancel()
-
-  server.Shutdown(ctx)
-
-  log.Println("Gracefully shutting down...")
   return 0
 }
 

@@ -2,3 +2,4 @@
 vendor/
 dob-api
 dob-api.db
+coverage.txt
