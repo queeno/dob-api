@@ -56,7 +56,7 @@ func (d DynamoDB) Put(key string, value string) error {
   }
 
   input := &dynamodb.UpdateItemInput{
-    TableName:     aws.String("DateOfBirths"),
+    TableName:     aws.String("dateOfBirths"),
     Key:           elem,
   }
   _, err = d.db.UpdateItem(input)
