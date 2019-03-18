@@ -7,9 +7,6 @@ go:
 before_install:
   - cd dob-api && go get -t -v ./...
 
-before_script:
-  - cd dob-api
-
 script:
   - go test -race -coverprofile=coverage.txt -covermode=atomic -v ./...
 
