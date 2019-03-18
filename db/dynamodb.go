@@ -43,10 +43,10 @@ func (d DynamoDB) Put(key string, value string) error {
   input := &dynamodb.PutItemInput{
     TableName:  aws.String("dateOfBirths"),
     Item:       map[string]*dynamodb.AttributeValue{
-			":dob": {
+			"dateofBirth": {
 				S: aws.String(value),
 			},
-      ":username":{
+      "username":{
         S: aws.String(key),
       },
 		},
