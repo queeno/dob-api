@@ -6,11 +6,15 @@ import (
   "net/http"
   "fmt"
   "strings"
+  "time"
 
   "github.com/stretchr/testify/assert"
 )
 
 func TestPutUserEndpoint(t *testing.T) {
+  now := time.Now()
+  today := fmt.Sprintf("%04d-%02d-%02d", now.Year(), now.Month(), now.Day())
+
   tcs := []struct{
       Username string
       RequestBody string
@@ -18,6 +22,7 @@ func TestPutUserEndpoint(t *testing.T) {
       ResponseBody string
   }{
       {"simon", "{ \"dateOfBirth\": \"1988-03-20\" }", http.StatusNoContent, ""},
+      {"michael", fmt.Sprintf("{ \"dateOfBirth\": \"%s\" }",today), http.StatusNoContent, ""},
       {"karl", "{ \"dateOfBirth\": \"2007-02-29\" }", http.StatusInternalServerError, "parsing time \"2007-02-29\": day out of range"},
       {"j0sh", "{ \"dateOfBirth\": \"2007-02-29\" }", http.StatusInternalServerError, "The username provided j0sh didn't validate"},
       {"", "{ \"dateOfBirth\": \"2007-02-29\" }", http.StatusNotFound, "404 page not found\n"},

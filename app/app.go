@@ -92,13 +92,14 @@ func (a App) GetDateOfBirth(username string) (string, error) {
 func (a App) daysRemainingToNextBirthday(dateOfBirth time.Time) int {
   displacement := 0
   nextBirthday := time.Date(a.today.Year(), dateOfBirth.Month(), dateOfBirth.Day(), 0, 0, 0, 0, time.UTC)
+  todayAtMidnight := time.Date(a.today.Year(), a.today.Month(), a.today.Day(), 0, 0, 0, 0,time.UTC)
 
-  if nextBirthday.Before(a.today) {
+  if nextBirthday.Before(todayAtMidnight) {
     nextBirthday = nextBirthday.AddDate(1,0,0)
-    displacement = time.Date(a.today.Year(), 12, 31, 0, 0, 0, 0, time.UTC).YearDay()
+    displacement = time.Date(todayAtMidnight.Year(), 12, 31, 0, 0, 0, 0, time.UTC).YearDay()
   }
 
-  return (nextBirthday.YearDay() - a.today.YearDay()) + displacement
+  return (nextBirthday.YearDay() - todayAtMidnight.YearDay()) + displacement
 }
 
 func NewApp(db db.Database) *App {
