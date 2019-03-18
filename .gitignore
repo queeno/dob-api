@@ -3,3 +3,6 @@ vendor/
 dob-api
 dob-api.db
 coverage.txt
+.terraform/
+dob-api.zip
+.terraform.tfstate.lock.info
