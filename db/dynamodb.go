@@ -30,12 +30,12 @@ func (d DynamoDB) Get(key string) (string, error) {
     return "", err
   }
 
-  dob := result.Item["dateOfBirth"].S
+  dob := result.Item["dateOfBirth"]
   if dob == nil {
     return "", errors.New("dateOfBirth not set in DB")
   }
 
-  return *dob, nil
+  return *dob.S, nil
 }
 
 func (d DynamoDB) Put(key string, value string) error {
