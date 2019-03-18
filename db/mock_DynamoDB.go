@@ -1,9 +1,9 @@
 package db
 
 import (
-  "github.com/aws/aws-sdk-go/service/dynamodb/dynamodbattribute"
   "github.com/aws/aws-sdk-go/service/dynamodb/dynamodbiface"
   "github.com/aws/aws-sdk-go/service/dynamodb"
+  "github.com/aws/aws-sdk-go/aws"
 )
 
 type mockDynamoDBClient struct {
@@ -15,18 +15,16 @@ func (m mockDynamoDBClient) UpdateItem(item *dynamodb.UpdateItemInput) (*dynamod
 }
 
 func (m mockDynamoDBClient) GetItem(item *dynamodb.GetItemInput) (*dynamodb.GetItemOutput, error){
-  i := &Item{
-    Username: *item.Key["username"].S,
-    DateOfBirth: "2011-01-01",
-  }
-
-  elem, err := dynamodbattribute.MarshalMap(i)
-  if err != nil {
-    return nil, err
-  }
 
   gio := &dynamodb.GetItemOutput{
-    Item: elem,
+    Item: map[string]*dynamodb.AttributeValue{
+      "username": {
+        S: item.Key["username"].S,
+      },
+      "dateOfBirth": {
+        S: aws.String("2011-01-01"),
+      },
+    },
   }
 
   return gio, nil

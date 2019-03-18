@@ -1,17 +1,11 @@
 package db
 
 import (
-  "github.com/aws/aws-sdk-go/service/dynamodb/dynamodbattribute"
   "github.com/aws/aws-sdk-go/service/dynamodb/dynamodbiface"
 	"github.com/aws/aws-sdk-go/service/dynamodb"
   "github.com/aws/aws-sdk-go/aws/session"
   "github.com/aws/aws-sdk-go/aws"
 )
-
-type Item struct {
-  Username    string    `json:"username"`
-  DateOfBirth string    `json:"dateOfBirth"`
-}
 
 type DynamoDB struct {
   db dynamodbiface.DynamoDBAPI
@@ -34,14 +28,7 @@ func (d DynamoDB) Get(key string) (string, error) {
     return "", err
   }
 
-  item := Item{}
-
-  err = dynamodbattribute.UnmarshalMap(result.Item, &item)
-  if err != nil {
-    return "", err
-  }
-
-  return item.DateOfBirth, nil
+  return *result.Item["dateOfBirth"].S, nil
 }
 
 func (d DynamoDB) Put(key string, value string) error {
