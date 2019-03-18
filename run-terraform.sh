@@ -2,7 +2,7 @@
 
 set -e
 
-curl -L -o dob-api.new https://github.com/queeno/dob-api/releases/download/master/dob-api &>/dev/null
+curl -L -o dob-api.new https://github.com/queeno/dob-api/releases/download/latest/dob-api &>/dev/null
 
 DOB_API_MD5="$(md5 -q dob-api || true)"
 NEW_DOB_API_MD5="$(md5 -q dob-api.new || true)"
