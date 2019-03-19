@@ -187,3 +187,9 @@ Where appropriate, mock objects are created to isolate the testing scope to the 
 - The integration tests only cover local running components (AWS infrastructure is not in scope for now).
 - There is missing logic to replicate the count days functionality for testing
 reasons.
+
+#### Edge case
+
+If your birthday falls on the 29th February and the current year is not a leap
+year, then the app assumes you celebrate on 1st March.
+Feel free to celebrate on the 28th otherwise!

@@ -19,6 +19,17 @@ func TestDaysRemainingToNextBirthday(t *testing.T){
     DaysRemaining int
   }{
     {time.Date(1975, 12, 21, 0, 0, 0, 0, time.UTC), time.Date(2011, 12, 31, 0, 0, 0, 0, time.UTC), 356},
+    {time.Date(1973, 3, 1, 0, 0, 0, 0, time.UTC), time.Date(2019, 3, 2, 0, 0, 0, 0, time.UTC), 365},
+    {time.Date(1973, 3, 1, 0, 0, 0, 0, time.UTC), time.Date(2020, 3, 2, 0, 0, 0, 0, time.UTC), 364},
+    {time.Date(1973, 2, 1, 0, 0, 0, 0, time.UTC), time.Date(2020, 2, 2, 0, 0, 0, 0, time.UTC), 365},
+    {time.Date(1973, 2, 2, 0, 0, 0, 0, time.UTC), time.Date(2020, 2, 1, 0, 0, 0, 0, time.UTC), 1},
+    {time.Date(1976, 2, 29, 0, 0, 0, 0, time.UTC), time.Date(2020, 2, 29, 0, 0, 0, 0, time.UTC), 0},
+    {time.Date(1976, 2, 29, 0, 0, 0, 0, time.UTC), time.Date(2021, 2, 28, 0, 0, 0, 0, time.UTC), 1},
+    {time.Date(1976, 2, 29, 0, 0, 0, 0, time.UTC), time.Date(2021, 3, 1, 0, 0, 0, 0, time.UTC), 0},
+    {time.Date(1976, 2, 29, 0, 0, 0, 0, time.UTC), time.Date(2019, 3, 1, 0, 0, 0, 0, time.UTC), 0},
+    {time.Date(1976, 2, 28, 0, 0, 0, 0, time.UTC), time.Date(2020, 2, 29, 0, 0, 0, 0, time.UTC), 365},
+    {time.Date(1976, 2, 28, 0, 0, 0, 0, time.UTC), time.Date(2019, 3, 1, 0, 0, 0, 0, time.UTC), 364},
+    {time.Date(1976, 2, 28, 0, 0, 0, 0, time.UTC), time.Date(2020, 3, 1, 0, 0, 0, 0, time.UTC), 364},
     {time.Date(1988, 12, 31, 0, 0, 0, 0, time.UTC), time.Date(2011, 12, 21, 0, 0, 0, 0, time.UTC), 10},
     {time.Date(7, 12, 31, 0, 0, 0, 0, time.UTC), time.Date(2010, 12, 21, 0, 0, 0, 0, time.UTC), 10},
     {time.Date(2004, 2, 29, 0, 0, 0, 0, time.UTC), time.Date(2012, 12, 21, 0, 0, 0, 0, time.UTC), 70},
