@@ -87,8 +87,8 @@ resource elasticity and scalability as well as optimising the running costs.
 
 An API gateway is provisioned which exposes a frontend API on an arbitrary Amazon URL.
 This serves the two endpoints:
-- PUT /hello/<username>
-- GET /hello/<username>
+- PUT `/hello/<username>`
+- GET `/hello/<username>`
 
 The API gateway is configured to automatically trigger the associated lambda function
 running the app. This interacts with DynamoDB, the AWS no-SQL database service, where
