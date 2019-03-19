@@ -2,7 +2,7 @@ ignore:
   - "img/"
   - "terraform/"
   - "*_test.go"
-  - "mock_*"
+  - "mock_*.go"
   - ".gitignore"
   - ".travis.yml"
   - "Gopkg*"
