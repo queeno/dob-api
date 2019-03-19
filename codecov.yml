@@ -1,0 +1,12 @@
+ignore:
+  - "img/"
+  - "terraform/"
+  - "*_test.go"
+  - "mock_*"
+  - ".gitignore"
+  - ".travis.yml"
+  - "Gopkg*"
+  - "LICENSE"
+  - "README.md"
+  - "*.sh"
+  - "*.tf"
