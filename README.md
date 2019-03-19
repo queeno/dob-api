@@ -41,11 +41,39 @@ Make sure the AWS credentials are injected in your environment before running it
 The `run-terraform.sh` script makes sure the latest dob-api release is always deployed
 with terraform.
 
+A new release is published automatically within GitHub releases every time the
+master branch is updated. A .travis.yml file is included in the repo for this
+task.
+
 In order to create infrastructure, simply run:
 
 `./run-terraform.sh apply`
 
-Terraform will output the API Gateway endpoint to query.
+Terraform will output the API Gateway endpoint to query (ie. https://kkxnq4br7k.execute-api.eu-west-2.amazonaws.com/live)
+
+### Using the API
+
+```shell
+curl -XPUT https://kkxnq4br7k.execute-api.eu-west-2.amazonaws.com/live/hello/simon -d '{ "dateOfBirth": "2010-02-01" }'
+```
+
+Set Simon's date of birth to 1st February 2010.
+
+Today's the 19th March, hence the following request returns:
+
+```shell
+curl https://kkxnq4br7k.execute-api.eu-west-2.amazonaws.com/live/hello/simon
+{"message":"Hello, simon! Your birthday is in 319 day(s)"}
+```
+
+### Cleaning up
+Please don't forget to run
+
+```shell
+./run-terraform.sh destroy
+```
+
+in order to clean up!
 
 ## Infrastructure architectural overview
 
