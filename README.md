@@ -14,7 +14,7 @@ The application automatically detects whether it is being run inside a lambda fu
 and switches mode accordingly.
 
 
-## Build
+## Instructions
 
 ### App
 
@@ -29,6 +29,12 @@ produced in `$GOPATH/bin`.
 
 ### Infrastructure
 
+Please make sure that the following packages are installed:
+- curl
+- jq
+- openssl
+- terraform
+
 The terraform directory contains the infrastructure configuration code.
 Make sure the AWS credentials are injected in your environment before running it.
 
@@ -41,8 +47,9 @@ In order to create infrastructure, simply run:
 
 Terraform will output the API Gateway endpoint to query.
 
-
 ## Infrastructure architectural overview
+
+![](img/infrastructure_diagram.png)
 
 The above diagram shows how *dob-api* can be deployed within AWS to
 leverage the public cloud power in order to maximise
@@ -65,6 +72,8 @@ within AWS the application can be scaled infinitely.
 
 
 ## Application architectural overview
+
+![](img/app_diagram.png)
 
 The application has been written in Go 1.12 following a bottom-up approach.
 The above diagram shows the logical building blocks, or in Go terms, *packages*.
