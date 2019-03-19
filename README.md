@@ -126,11 +126,11 @@ commercials with AWS.
   <img src="img/app_diagram.png?raw=true" alt="App architectural overview"/>
 </p>
 
-The application has been written following a bottom-up approach.
+The application has been written following a bottom-up, object-oriented, component-pluggable approach.
 
 The diagram above shows the logical building blocks, or in Go terms, *packages*.
 Each package contains one or more classes, which implement functionality
-described by interfaces, which allows these classes to be plugged
+described by interfaces, which allow these classes to be plugged
 interchangeably and ease testing.
 
 The *db* package provides database integration functionality.
@@ -145,7 +145,7 @@ type Database interface {
 }
 ```
 
-The *db* package includes two implementation of this interface:
+The *db* package includes two implementations of this interface:
 - **DynamoDB**, which provides AWS DynamoDB support
 - **Bolt**, which provides [Bolt](https://github.com/boltdb/bolt) support.
 Bolt is a lightweight, minimal and simple database written in go. Data is stored
