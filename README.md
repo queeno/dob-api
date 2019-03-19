@@ -7,16 +7,14 @@
 A simple, scalable, highly available RESTful API written in Go, never to forget again your friends' birthdays.
 
 The application supports two modes of operation:
-- **Local mode:** A local HTTP server is created and accepts connections on: 0.0.0.0:8000
-- **Serverless mode:** The application can run within a Go 1.x lambda function in AWS.
+- **Local mode:** An HTTP server is span up is bound to the following local address: 0.0.0.0:8000
+- **Serverless mode:** This mode introduces support for AWS Go 1.x Lambda functions.
 
-The application automatically detects whether it is being run inside a lambda function
-and switches mode accordingly.
+The application is written to detect the appropriate mode of operation automatically.
 
+## Build and deploy locally
 
-## Instructions
-
-### App
+Only run this step if you wish to run the application in your local environment.
 
 Please install [Go 1.12](https://golang.org/doc/install) on your system.
 
@@ -24,10 +22,37 @@ Please install [Go 1.12](https://golang.org/doc/install) on your system.
 go get github.com/queeno/dob-api
 ```
 will place the project in `$GOPATH/src/github.com/queeno/dob-api` and downloads
-the associated dependencies. A statically-linked binary will be also automatically
-produced in `$GOPATH/bin`.
+the associated dependencies. A statically-linked binary will be also automatically produced in `$GOPATH/bin`.
 
-### Infrastructure
+In order to run `dob-api`, just run the binary:
+
+```shell
+./dob-api
+2019/03/19 20:02:34 Starting server on 0.0.0.0:8000
+```
+
+Then just curl:
+
+```shell
+curl -XPUT localhost:8000/hello/simon -d '{ "dateOfBirth": "2011-09-02"}'
+```
+
+And because today is the 19th March, you'll get the following message:
+
+```shell
+curl localhost:8000/hello/simon
+{"message":"Hello, simon! Your birthday is in 167 day(s)"}
+```
+
+In order to shutdown the server, please just send a SIGINT to the process:
+
+```shell
+kill -INT 76364
+```
+
+or just press CTRL+C.
+
+## Deploy in AWS
 
 Please make sure that the following packages are installed:
 - curl
@@ -38,26 +63,23 @@ Please make sure that the following packages are installed:
 The terraform directory contains the infrastructure configuration code.
 Make sure the AWS credentials are injected in your environment before running it.
 
-The `run-terraform.sh` script makes sure the latest dob-api release is always deployed
-with terraform.
+The `run-terraform.sh` script makes sure the latest dob-api release is always deployed with terraform.
 
 A new release is published automatically within GitHub releases every time the
-master branch is updated. A .travis.yml file is included in the repo for this
-task.
+master branch is updated. A `.travis.yml` file is included in the repo
+to achieve this task.
 
-In order to create infrastructure, simply run:
+In order to create infrastructure and deploy the application simply run:
 
 `./run-terraform.sh apply`
 
 Terraform will output the API Gateway endpoint to query (ie. https://kkxnq4br7k.execute-api.eu-west-2.amazonaws.com/live)
 
-### Using the API
-
 ```shell
 curl -XPUT https://kkxnq4br7k.execute-api.eu-west-2.amazonaws.com/live/hello/simon -d '{ "dateOfBirth": "2010-02-01" }'
 ```
 
-Set Simon's date of birth to 1st February 2010.
+sets Simon's date of birth to 1st February 2010.
 
 Today's the 19th March, hence the following request returns:
 
@@ -97,9 +119,8 @@ the data resides.
 The application includes infrastructure deployment scripts which implement this
 architecture in AWS.
 
-The current limits are either arbitrary or AWS-specific. These aren't hard:
-within AWS the application can be scaled infinitely.
-
+Scalability limits depend entirely on the AWS configuration and commercials.
+Technically speaking, the application can be scaled infinitely.
 
 ## Application architectural overview
 
