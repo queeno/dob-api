@@ -16,7 +16,6 @@ script:
 after_success:
   - bash <(curl -s https://codecov.io/bash)
   - go build -o dob-api .
-  - zip -r
 
 before_deploy:
   - md5sum dob-api | awk '{ print $1 }' > dob-api.md5
