@@ -49,7 +49,9 @@ Terraform will output the API Gateway endpoint to query.
 
 ## Infrastructure architectural overview
 
-![](img/infrastructure_diagram.png)
+<p align="center">
+  <img src="img/infrastructure_diagram.png?raw=true" alt="App architectural overview"/>
+</p>
 
 The above diagram shows how *dob-api* can be deployed within AWS to
 leverage the public cloud power in order to maximise
@@ -73,7 +75,9 @@ within AWS the application can be scaled infinitely.
 
 ## Application architectural overview
 
-![](img/app_diagram.png)
+<p align="center">
+  <img src="img/app_diagram.png?raw=true" alt="App architectural overview"/>
+</p>
 
 The application has been written in Go 1.12 following a bottom-up approach.
 The above diagram shows the logical building blocks, or in Go terms, *packages*.
