@@ -129,8 +129,8 @@ commercials with AWS.
 The application has been written following a bottom-up, object-oriented, component-pluggable approach.
 
 The diagram above shows the logical building blocks, or in Go terms, *packages*.
-Each package contains one or more classes, which implement functionality
-described by interfaces, which allow these classes to be plugged
+Each package contains one or more classes, which implement the functionality
+described by interfaces. These allow the classes to be plugged
 interchangeably and ease testing.
 
 The *db* package provides database integration functionality.
@@ -174,7 +174,7 @@ The *lambda* package contains the **Lambda** class, which includes an AWS
 lambda handler to serve API Gateway requests.
 
 The *main* package contains the logic to automatically detect a lambda run
-vs a local run and trigger the relevant logic.
+vs a local run and triggers the relevant logic.
 
 ### Testing considerations
 
