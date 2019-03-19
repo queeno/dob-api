@@ -18,9 +18,14 @@ after_success:
   - go build -o dob-api .
   - zip -r
 
+before_deploy:
+  - md5sum dob-api | awk '{ print $1 }' > dob-api.md5
+
 deploy:
   provider: releases
-  file: dob-api
+  file:
+    - dob-api
+    - dob-api.md5
   name: dob-api
   api_key:
     secure: vgQskt4pcX9M485z5CF6vTf4GDnelY3aEGpf+y5WdDRgvEMMwsEeQT1UAD4xwbcsRraKypDNxBZ4vQ/EaY0ZeDFrK5Z4n8Sgda8UjtR/HOenYlcln2+TER1Sj/KVFqVldbHMLu58k7lvTpJEXZC4DNMpdneMbPwCZsvRUL88rjpH6Ck3k8J6f166RVYE4NIJYcDh4RQYa/4ozpMd0g0keQ3FvcMt4l3T71IqcJsFvWUfP+Japjl/tC5RrixQf4Fm+DUBkR0+a1CIGC/JV7Vj2ZcQaLUyM7k20ezYqqZVZvI+EFe41o/2up2wdAXUqfHjFQjR0DsXmpxAaGn3Awx598ludM+147Cvn90ZzJnGiYDvYK/y9iCdD7cmJT5DJ7lpSs72TL5QMfl4yO6cryWoCk4+ABhzj4D6yiHjB2x9aO1dZ8+b7Bo/W/Afx2Ux8FFKNeNlUs5YTr6nmg3RN+SeEiYuZtk+RpoABB4tQFwsqWS8vlfjh+1U+LrBxXUyiPImzswo/qutwmo7HjWSKKzxU9Q11OkTV3QMl08p40+SRy6w7pix9ecjVnM+7TFdFH0L9cORTCuj7zHeX6cx0Kcql/kAMIQWGKTtnqabNVbg/uad6V4lxGAmr7/k3CGKS4WxEpyIAf0qHU9IBLeclyiqtmtszQjTwXrJplEGplgTk6U=
