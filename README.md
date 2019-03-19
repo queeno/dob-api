@@ -12,9 +12,9 @@ The application supports two modes of operation:
 
 The application is written to detect the appropriate mode of operation automatically.
 
-## Build and deploy locally
+## Build and run locally
 
-Only run this step if you wish to run the application in your local environment.
+Only follow this step if you wish to run the application in your local environment.
 
 Please install [Go 1.12](https://golang.org/doc/install) on your system.
 
@@ -149,8 +149,8 @@ type Database interface {
 The *db* package includes two implementation of this interface:
 - **DynamoDB**, which provides AWS DynamoDB support
 - **Bolt**, which provides [Bolt](https://github.com/boltdb/bolt) support.
-Bolt is a lightweight, minimal and simple database written in go and
-included in a file.
+Bolt is a lightweight, minimal and simple database written in go. Data is stored
+in a local file.
 
 The *app* package contains the main functionality of the project. In other words,
 it contains the functions that elaborate response for a given query.
